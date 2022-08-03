@@ -1,6 +1,5 @@
 /*
 	Cleaning data query
-
 */
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -25,6 +24,7 @@ update petrol_gas set Daily_Oil_Consumption_Barrels = replace(Daily_Oil_Consumpt
 from petrol_gas
 update petrol_gas set World_Share = replace(World_Share, '%', '')
 update petrol_gas set GDP_Per_Capita_USD = replace(GDP_Per_Capita_USD, ',', '')
+update petrol_gas set Gallons_GDP_Per_Capita_Can_Buy = replace(Gallons_GDP_Per_Capita_Can_Buy, ',','.')
  
 
 --alter columns
@@ -37,8 +37,8 @@ alter table petrol_gas alter column Price_Per_Liter_USD float
 alter table petrol_gas alter column Price_Per_Liter_PKR float
 alter table petrol_gas alter column GDP_Per_Capita_USD int
 alter table petrol_gas alter column GDP_Per_Capita_USD int
+alter table petrol_gas alter column Gallons_GDP_Per_Capita_Can_Buy float
 alter table petrol_gas alter column xTimes_Yearly_Gallons_Per_Capita_Buy int
-
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -90,7 +90,8 @@ The only columns we can find duplicates are in Id and Country, since all the oth
 
 --Drop unused columns
 
-
+alter table petrol_gas drop column Price_Per_Liter_PKR
+alter table petrol_gas drop column xTimes_Yearly_Gallons_Per_Capita_Buy
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -126,14 +127,12 @@ select *
 from petrol_gas
 order by Price_Per_Gallon_USD desc
 
+--percentual difference between North Corea and Tonga
+select top 1 ((54.89 - 16.2) / 54.89) * 100 as Percent_difference
+from petrol_gas
 
 
 --Highest gdp per capita
 select *
 from petrol_gas
 order by GDP_Per_Capita_USD desc
-
-
-
-select *
-from petrol_gas
